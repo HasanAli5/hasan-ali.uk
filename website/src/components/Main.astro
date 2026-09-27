@@ -1,0 +1,15 @@
+---
+import Projects from "./Projects.jsx"
+import Terminal from "./Terminal.astro"
+import Contact from "./Contact.astro"
+import Hero from "./Hero.astro"
+---
+
+<main>
+	<Hero></Hero>
+	<div id="grid" class="xl:mx-32 md:mx-16 mx-8 grid grid-cols-8 gap-4 justify-center mt-8 transition-all">
+		<Projects client:load/>
+		<Terminal/>
+		<Contact/>
+	</div>
+</main>

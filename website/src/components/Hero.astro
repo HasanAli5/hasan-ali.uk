@@ -1,0 +1,197 @@
+---
+import "dotenv/config";
+import { Icon } from 'astro-icon/components'
+import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
+import { randomInt } from "crypto"
+const DEV = process.env.DEV!
+var count = async() => {
+	try {
+		if (DEV){
+			return 1
+		}
+		var client = new DynamoDBClient({
+			region: process.env.AWS_REGION!,
+			credentials: {
+				accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+			}
+		})
+
+		const command = new UpdateItemCommand({
+			TableName: "Portfolio",
+			Key: {
+				portfolio: {S: "visits"},
+				id : {S : "visits"}
+			},
+			UpdateExpression: "ADD #count :increment",
+			ExpressionAttributeNames: {
+				"#count":"count"
+			},
+			ExpressionAttributeValues: {
+				":increment":{N:"1"}
+			},
+			ReturnValues:"UPDATED_NEW"
+		})
+		const response = await client.send(command)
+		const count = response.Attributes?.count?.N;
+		return count
+	}
+	catch (err) {
+		console.log(err)
+	}
+}
+var Action1 = [
+	"build",
+	"make",
+	"craft",
+	"design",
+	"create",
+	"implement",
+	"develop"
+]
+var Label1 = [
+	{text:"code",plural:false},
+	{text:"things",plural:true},
+	{text:"apps",plural:true},
+	{text:"projects",plural:true},
+	{text:"models",plural:true},
+	{text:"websites",plural:true}
+]
+var Emoji1 = [
+	"🛠️",
+	"🔨",
+	"🪛",
+	"🔧",
+	"⚙️",
+	"🪄"
+]
+var Action2 = [
+	"",
+	"do"
+]
+var Label2 = [
+	"works",
+	"executes",
+	"runs",
+	"functions"
+]
+var Emoji2 = [
+	"🚀",
+	"📱",
+	"💻",
+	"🌐",
+	"🖥️"
+]
+
+var randomtag = () => {
+	var a1 = Action1[randomInt(Action1.length)]
+	var l1 = Label1[randomInt(Label1.length)]
+	var e1 = Emoji1[randomInt(Emoji1.length)]
+	var a2 = Action2[randomInt(Action2.length)]
+	var l2 = Label2[randomInt(Label2.length)]
+	var e2 = Emoji2[randomInt(Emoji2.length)]
+	var f = randomInt(2) == 0 ? "" : "!"
+	if (a2.length != 0){
+		a2 = l1.plural ? "do " : "does "
+		l2 = l2.slice(0,l2.length-1)
+	}
+	else{
+		l2 = l1.plural? l2.slice(0,l2.length-1) : l2
+	}
+	var tagString = `<p>I ${a1} <strong>${l1.text}</strong> ${e1} that ${a2}<strong>${l2}${f}</strong> ${e2}</p>`
+	return tagString
+}
+
+var tagString = randomtag()
+---
+
+<div id="hero" class="relative flex justify-center xl:pt-32 md:px-16 px-8 pt-16 2xl:pb-32 pb-56 bg-radial-[at_30%_40%] from-teal-600 from-50% to-cyan-800 to-75%">
+    <h1 class="p-5 text-white text-6xl text-center">
+        Hi, I'm<br/>
+        <strong class="text-8xl hover:text-9xl transition-all">Hasan</strong><br/>
+        <div class="flex gap-4">
+            <div id="tagline" class="md:text-4xl text-3xl text-center" set:html={tagString}></div>
+            <button id="tagbutton" class="hover:animate-pulse w-12 h-12 border rounded-2xl hover:scale-110 transition-all p-1">
+                <Icon name="mdi:refresh" class="w-10 h-10"/>
+            </button>
+        </div>
+    </h1>
+    <div class="absolute bottom-0 right-0 md:py-8 py-4 md:px-16 px-8 mb-8 mr-36 rounded-4xl border-3 text-4xl text-white text-center">
+        <div>Visits</div>
+        <div class="text-7xl">{count}</div>
+    </div>
+</div>
+
+<script>
+    var Action1 = [
+        "build",
+        "make",
+        "craft",
+        "design",
+        "create",
+        "implement",
+        "develop"
+    ]
+    var Label1 = [
+        {text:"code",plural:false},
+        {text:"things",plural:true},
+        {text:"apps",plural:true},
+        {text:"projects",plural:true},
+        {text:"models",plural:true},
+        {text:"websites",plural:true}
+    ]
+    var Emoji1 = [
+        "🛠️",
+        "🔨",
+        "🪛",
+        "🔧",
+        "⚙️",
+        "🪄"
+    ]
+    var Action2 = [
+        "",
+        "do"
+    ]
+    var Label2 = [
+        "works",
+        "executes",
+        "runs",
+        "functions"
+    ]
+    var Emoji2 = [
+        "🚀",
+        "📱",
+        "💻",
+        "🌐",
+        "🖥️"
+    ]
+    var randomInt = (max: number) => {
+        return Math.floor(max*Math.random())
+    }
+
+    var randomtag = () => {
+        var a1 = Action1[randomInt(Action1.length)]
+        var l1 = Label1[randomInt(Label1.length)]
+        var e1 = Emoji1[randomInt(Emoji1.length)]
+        var a2 = Action2[randomInt(Action2.length)]
+        var l2 = Label2[randomInt(Label2.length)]
+        var e2 = Emoji2[randomInt(Emoji2.length)]
+        var f = randomInt(2) == 0 ? "" : "!"
+        if (a2.length != 0){
+            a2 = l1.plural ? "do " : "does "
+            l2 = l2.slice(0,l2.length-1)
+        }
+        else{
+            l2 = l1.plural? l2.slice(0,l2.length-1) : l2
+        }
+        var tagString = `<p>I ${a1} <strong>${l1.text}</strong> ${e1} that ${a2}<strong>${l2}${f}</strong> ${e2}</p>`
+        return tagString
+    }
+    const button = document.getElementById("tagbutton")
+    if(button){
+        button?.addEventListener('click',()=>{
+            const taghtml = document.getElementById("tagline")!
+            taghtml.innerHTML = randomtag()
+        })
+    }
+</script>

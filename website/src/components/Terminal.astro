@@ -1,0 +1,89 @@
+---
+import '@xterm/xterm/css/xterm.css';
+---
+
+<div id="terminal" class="flex-wrap col-span-3 p-4 border rounded-4xl border-zinc-800 bg-black"></div>
+
+<script>
+    import { Terminal } from '@xterm/xterm';
+    import { FitAddon } from '@xterm/addon-fit';
+
+
+    const newcmdline = '\x1b[32mvisitor@site\x1B[0m:~$ '
+
+    let currentline = ''
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const term = new Terminal();
+        const fitAddon = new FitAddon();
+        const termdiv = document.getElementById('terminal')!
+
+        term.loadAddon(fitAddon);
+        term.open(termdiv);
+        
+        term.write(newcmdline)
+        fitAddon.fit();
+
+        const commands = import.meta.glob("./commands/*.ts", {eager:true})
+        const cmdkeys = Object.keys(commands)
+
+        var command_list = []
+
+        for (let i = 0; i < cmdkeys.length; i++) {
+            const cmd_name = Object.keys(commands[cmdkeys[i]])[0];
+            command_list.push(commands[cmdkeys[i]][cmd_name])
+        }
+
+
+        function handleCommand(command:string,term:Terminal){
+            var args = command.split(" ")
+            if (args[0] == "sudo"){
+                term.writeln("\x1b[31m403\x1b[0m\r\n")
+                return
+            }
+            command_list.forEach(cmd => {
+                if (args[0] == cmd["metadata"]["name"]){
+                    cmd["command"]({
+                        "terminal":term,
+                        "args":args.slice(1),
+                        "commands":command_list,
+                    })
+                }
+                
+            })
+        }
+
+        function handleData(data:any){
+
+            const datacode = data.charCodeAt(0);
+
+            console.log(datacode)
+            switch(datacode){
+                case 13:
+                    term.write('\r\n')
+
+                    handleCommand(currentline,term)
+                
+                    currentline = ''
+                    term.write(newcmdline)
+                    break
+                case 127:
+                    if (currentline.length > 0){
+                        currentline = currentline.slice(0,-1)
+                        term.write('\b \b')
+                    }
+                    break
+                default:
+                    if (datacode >= 32 && datacode <= 126) {
+                        currentline += data
+                        term.write(data)
+                    }
+                    break
+            }
+        }
+
+        window.addEventListener("resize",()=>fitAddon.fit())
+
+        term.onData(data => handleData(data))
+    })
+</script>
