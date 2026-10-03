@@ -58,8 +58,18 @@ export default function Projects(){
                 <div className="border-t border-zinc-700 mx-4 my-4"></div>
 
                 {ProjectsArray.map((ProjectComponent,index)=>{
+
+                    var classname
+                    if (index == selectedState && previewState){
+                        classname = "w-11/12 m-4 p-4 border border-blue-800 rounded-2xl text-left"
+                    }
+                    else{
+                        classname = "w-11/12 m-4 p-4 border border-zinc-800 rounded-2xl text-left"
+                    }
+                     
+
                         return (
-                        <button key={index} onClick={()=>projectHandler(index)} className="w-11/12 m-4 p-4 border border-zinc-800 rounded-2xl text-left">
+                        <button key={index} onClick={()=>projectHandler(index)} className={classname}>
                             <ProjectComponent verbose={!previewState}/>
                         </button>)
                     }
