@@ -1,19 +1,20 @@
 ---
-import "dotenv/config";
+export const prerender = false;
+
 import { Icon } from 'astro-icon/components'
 import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 import { randomInt } from "crypto"
-const DEV = process.env.DEV!
+const DEV = import.meta.env.DEV!
 var count = async() => {
 	try {
 		if (DEV){
 			return 1
 		}
 		var client = new DynamoDBClient({
-			region: process.env.AWS_REGION!,
+			region: import.meta.env.AWS_REGION!,
 			credentials: {
-				accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-				secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!
+				accessKeyId: import.meta.env.AWS_ACCESS_KEY_ID!,
+				secretAccessKey: import.meta.env.AWS_SECRET_ACCESS_KEY!
 			}
 		})
 
