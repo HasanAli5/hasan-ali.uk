@@ -4,38 +4,48 @@ export const prerender = false;
 import { Icon } from 'astro-icon/components'
 import { randomInt } from "crypto"
 import { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DEV } from 'astro:env/server'
+import { AwsClient } from "aws4fetch"
 
 var count = async() => {
 	try {
 		if (DEV){
 			return 1
 		}
-        const { DynamoDBClient, UpdateItemCommand } = await import("@aws-sdk/client-dynamodb");
-        var client = new DynamoDBClient({
+        var client = new AwsClient({
             region: AWS_REGION,
-            credentials: {
-                accessKeyId: AWS_ACCESS_KEY_ID,
-                secretAccessKey: AWS_SECRET_ACCESS_KEY
-            }
+            accessKeyId: AWS_ACCESS_KEY_ID,
+            secretAccessKey: AWS_SECRET_ACCESS_KEY,
+            service: "dynamodb"
         })
 
-		const command = new UpdateItemCommand({
-			TableName: "Portfolio",
-			Key: {
-				portfolio: {S: "visits"},
-				id : {S : "visits"}
-			},
-			UpdateExpression: "ADD #count :increment",
-			ExpressionAttributeNames: {
-				"#count":"count"
-			},
-			ExpressionAttributeValues: {
-				":increment":{N:"1"}
-			},
-			ReturnValues:"UPDATED_NEW"
-		})
-		const response = await client.send(command)
-		const count = response.Attributes?.count?.N;
+		const response = await client.fetch(`https://dynamodb.${AWS_REGION}.amazonaws.com/`,
+        {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-amz-json-1.0',
+                'X-Amz-Target': 'DynamoDB_20120810.UpdateItem'
+            },
+            body: JSON.stringify({
+                TableName: "Portfolio",
+                Key: {
+                    portfolio: {S: "visits"},
+                    id : {S : "visits"}
+                },
+                UpdateExpression: "ADD #count :increment",
+                ExpressionAttributeNames: {
+                    "#count":"count"
+                },
+                ExpressionAttributeValues: {
+                    ":increment":{N:"1"}
+                },
+                ReturnValues:"UPDATED_NEW"
+            })
+        })
+        if (!response.ok){
+            return 0
+        }
+        const data = await response.json()
+		const count = data.Attributes?.count?.N;
 		return count
 	}
 	catch (err) {

@@ -15,7 +15,6 @@
   "dependencies": {
     "@astrojs/cloudflare": "^14.3.3",
     "@astrojs/react": "^7.0.0",
-    "@aws-sdk/client-dynamodb": "^3.1129.0",
     "@tailwindcss/vite": "^4.3.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
@@ -23,7 +22,7 @@
     "@xterm/xterm": "^6.0.0",
     "astro": "^7.0.4",
     "astro-icon": "^1.1.5",
-    "dotenv": "^17.4.2",
+    "aws4fetch": "^1.0.20",
     "tailwindcss": "^4.3.2",
     "wrangler": "^4.147.0"
   },
