@@ -12,6 +12,6 @@
 		"enabled": true
 	},
 	"vars": {
-        "DEV": "false"
+        "DEV": false
     }
 }
