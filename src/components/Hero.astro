@@ -2,23 +2,23 @@
 export const prerender = false;
 
 import { Icon } from 'astro-icon/components'
-import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 import { randomInt } from "crypto"
 import { AWS_REGION, AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, DEV } from 'astro:env/server'
-
-var client = new DynamoDBClient({
-        region: AWS_REGION,
-        credentials: {
-            accessKeyId: AWS_ACCESS_KEY_ID,
-            secretAccessKey: AWS_SECRET_ACCESS_KEY
-        }
-    })
 
 var count = async() => {
 	try {
 		if (DEV){
 			return 1
 		}
+        const { DynamoDBClient, UpdateItemCommand } = await import("@aws-sdk/client-dynamodb");
+        var client = new DynamoDBClient({
+            region: AWS_REGION,
+            credentials: {
+                accessKeyId: AWS_ACCESS_KEY_ID,
+                secretAccessKey: AWS_SECRET_ACCESS_KEY
+            }
+        })
+
 		const command = new UpdateItemCommand({
 			TableName: "Portfolio",
 			Key: {
