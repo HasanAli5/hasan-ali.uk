@@ -9,7 +9,7 @@ import KbflPreview from "./projects/previews/Kbfl.jsx";
 
 export default function Projects(){
     const [previewState,setPreviewState] = useState(false)
-    const [selectedState,setSelectedState] = useState(null)
+    const [selectedState,setSelectedState] = useState(0)
 
     const ProjectsArray = [
         MaeModel,
@@ -61,10 +61,10 @@ export default function Projects(){
 
                     var classname
                     if (index == selectedState && previewState){
-                        classname = "w-11/12 m-4 p-4 border border-blue-800 rounded-2xl text-left"
+                        classname = "w-full my-2 px-4 pt-4 pb-16 border border-blue-800 rounded-2xl text-left relative"
                     }
                     else{
-                        classname = "w-11/12 m-4 p-4 border border-zinc-800 rounded-2xl text-left"
+                        classname = "w-full my-2 px-4 pt-4 pb-16 border border-zinc-800 rounded-2xl text-left relative"
                     }
                      
 

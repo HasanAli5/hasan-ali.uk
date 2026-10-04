@@ -1,17 +1,17 @@
 export default function Kbfl({verbose}){
     return (
-        <div id="mae_card" className="overflow-y-auto grid grid-flow-dense gap-4 w-full relative">
-            <div className="rounded-2xl row-span-1 flex gap-8 min-w-11/12">
+        <div id="mae_card" className="w-full">
+            <div className="rounded-2xl flex gap-4">
                 <div className={verbose?`min-w-25 max-w-25 min-h-25 fill-white`:`min-w-15 min-h-15 max-w-15 fill-white`}>
                     <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>head-snowflake-outline</title><path  d="M13 3C16.88 3 20 6.14 20 10C20 12.8 18.37 15.19 16 16.31V21H9V18H8C6.89 18 6 17.11 6 16V13H4.5C4.08 13 3.84 12.5 4.08 12.19L6 9.66C6.19 5.95 9.23 3 13 3M13 1C8.41 1 4.61 4.42 4.06 8.9L2.5 11L2.47 11L2.45 11.03C1.9 11.79 1.83 12.79 2.26 13.62C2.62 14.31 3.26 14.79 4 14.94V16C4 17.85 5.28 19.42 7 19.87V23H18V17.5C20.5 15.83 22 13.06 22 10C22 5.03 17.96 1 13 1M17.33 9.3L15.37 9.81L16.81 11.27C17.16 11.61 17.16 12.19 16.81 12.54S15.88 12.89 15.54 12.54L14.09 11.1L13.57 13.06C13.45 13.55 12.96 13.82 12.5 13.7C12 13.57 11.72 13.08 11.84 12.59L12.37 10.63L10.41 11.16C9.92 11.28 9.43 11 9.3 10.5C9.18 10.05 9.46 9.55 9.94 9.43L11.9 8.91L10.46 7.46C10.11 7.12 10.11 6.55 10.46 6.19C10.81 5.84 11.39 5.84 11.73 6.19L13.19 7.63L13.7 5.67C13.82 5.18 14.32 4.9 14.79 5.03C15.28 5.16 15.56 5.65 15.43 6.13L14.9 8.1L16.87 7.57C17.35 7.44 17.84 7.72 17.97 8.21C18.1 8.68 17.82 9.18 17.33 9.3Z" /></svg>
                 </div>
                 
-                <h1 className="text-2xl py-4">Kademlia Based Federated Learning</h1>
+                <h1 className="text-2xl flex-1">Kademlia-Based Federated Learning</h1>
                 {verbose?
-                <p>Fully decentralised federated learning network that works to train local ai models on private databases whilst preserving privacy.</p>:
+                <p className="flex-3">Fully decentralised federated learning network that works to train local ai models on private databases whilst preserving privacy.</p>:
                 <></>}
             </div>
-            <a className="absolute w-10 h-10 bottom-0 right-0 fill-white hover:fill-purple-400" href="https://github.com/HasanAli5/Kademlia-Based-Federated-Learning">
+            <a className="absolute w-10 h-10 bottom-4 right-4 fill-white hover:fill-purple-400" href="https://github.com/HasanAli5/Kademlia-Based-Federated-Learning">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>github</title><path d="M12,2A10,10 0 0,0 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12A10,10 0 0,0 12,2Z" /></svg>
             </a>
         </div>

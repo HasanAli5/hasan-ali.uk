@@ -13,13 +13,6 @@ export default defineConfig({
   output:"server",
   vite: {
   plugins: [tailwindcss()],
-  ssr: {
-      noExternal: ["@aws-sdk/*"],
-    },
-  optimizeDeps: {
-      // Tell Vite's dependency optimizer not to pre-bundle the AWS SDK during dev mode
-      exclude: ["@aws-sdk/client-dynamodb"],
-    },
   },
   integrations: [icon(), react()],
   adapter: cloudflare(),
